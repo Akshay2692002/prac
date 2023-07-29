@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student</title>
+</head>
+<body>
+  <div id="div1">
+    <h2>Student form</h2>
+  <div id="div2">
+  <form>
+    <label for="firstname">Firstname: </label>
+    <input type="text" name="firstname" id="firstname"/>
+    <br/>
+    <label for="lastname">Lastname: </label>
+    <input type="text" name="lastname" id="lastname"/>
+    <br/>
+    <label for="dob">dob: </label>
+    <input type="date" name="dob" id="dob"/>
+    <br/>
+    <label for="gender">gender: </label>
+    <input type="text" name="gender" id="gender"/>
+    <br/>
+    <label for="state">state: </label>
+    <input type="text" name="state" id="state"/>
+    <br/>
+    <label for="city">city: </label>
+    <input type="text" name="city" id="city"/>
+    <br/>
+    <label for="address">address: </label>
+    <input type="text" name="address" id="adress"/>
+    <br/>
+    <label for="email">email: </label>
+    <input type="email" name="email" id="email"/>
+    <br/>
+    <label for="phone">phone: </label>
+    <input type="number" name="phone" id="phone"/>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+<div id="div3">
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>dob</th>
+        <th>gender</th>
+        <th>state</th>
+        <th>city</th>
+        <th>address</th>
+        <th>phone</th>
+        <th>email</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+</div>
+<script>
+  const render= a =>{
+      const tbody=document.querySelector('tbody');
+      let html='';
+      a.forEach((item,id) => {
+        html+=`
+        <tr>
+          <td>${id+1}</td>
+          <td>${item.firstname}</td>
+          <td>${item.lastname}</td>
+          <td>${item.dob}</td>
+          <td>${item.gender}</td>
+          <td>${item.state}</td>
+          <td>${item.city}</td>
+          <td>${item.address}</td>
+          <td>${item.phone}</td>
+          <td>${item.email}</td>
+        </tr>
+        `
+      });
+      tbody.innerHTML=html;
+    };
+    const post=async(data)=>{
+       const formpos=await fetch('http://localhost:3004',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify(data)
+       })
+       const x=await formpos.json();
+       console.log(x);
+       const y=await fetch('http://localhost:3004');
+       console.log(y);
+       const z=await y.json();
+       render(z);
+    };
+    const form=document.querySelector('form');
+    form.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const formdata=new FormData(form);
+      const form1=Object.fromEntries(formdata);
+      post(form1);
+    });
+  </script>
+</body>
+</html>
